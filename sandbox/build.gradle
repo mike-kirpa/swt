@@ -6,4 +6,4 @@
  */
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = "hello_world"
+mainClassName = "ru.stqa.pft.sandbox.MyFirstProgram"
