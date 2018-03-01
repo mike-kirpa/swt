@@ -10,6 +10,8 @@
       <module name="sandbox_test" target="1.8" />
       <module name="swt-1_main" target="1.8" />
       <module name="swt-1_test" target="1.8" />
+      <module name="swt-sandbox_main" target="1.8" />
+      <module name="swt-sandbox_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
