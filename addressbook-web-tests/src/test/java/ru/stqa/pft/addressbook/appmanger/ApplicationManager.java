@@ -15,7 +15,7 @@ public class ApplicationManager {
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
     private SessionHelper sessionHelper;
-    private String baseUrl;
+    private ContactHelper contactHelper;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private String browser;
@@ -35,12 +35,11 @@ public class ApplicationManager {
             driver = new InternetExplorerDriver();
         }
 
-
-
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         groupHelper = new GroupHelper(driver);
         navigationHelper = new NavigationHelper(driver);
         sessionHelper = new SessionHelper(driver);
+        contactHelper = new ContactHelper(driver);
         sessionHelper.login("admin", "secret");
     }
 
@@ -94,4 +93,9 @@ public class ApplicationManager {
     public NavigationHelper getNavigationHelper() {
         return navigationHelper;
     }
+
+    public ContactHelper getContactHelper() {
+        return contactHelper;
+    }
+
 }

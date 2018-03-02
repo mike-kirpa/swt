@@ -13,4 +13,8 @@ public class NavigationHelper {
     public void goToGroups() {
         driver.findElement(By.linkText("groups")).click();
     }
+
+    public void gotoHomepage() {
+        driver.findElement(By.linkText("home")).click();
+    }
 }
