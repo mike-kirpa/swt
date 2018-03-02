@@ -12,15 +12,19 @@ public class GroupHelper {
     }
 
     public void fillGroupForm(GroupData groupData) {
-        driver.findElement(By.name("group_name")).click();
-        driver.findElement(By.name("group_name")).clear();
-        driver.findElement(By.name("group_name")).sendKeys(groupData.getGroupName());
-        driver.findElement(By.name("group_header")).click();
-        driver.findElement(By.name("group_header")).clear();
-        driver.findElement(By.name("group_header")).sendKeys(groupData.getHeaderName());
-        driver.findElement(By.name("group_footer")).click();
-        driver.findElement(By.name("group_footer")).clear();
-        driver.findElement(By.name("group_footer")).sendKeys(groupData.getFooterName());
+        type(By.name("group_name"), groupData.getGroupName());
+        type(By.name("group_header"), groupData.getHeaderName());
+        type(By.name("group_footer"), groupData.getFooterName());
+    }
+
+    protected void type(By locator, String text) {
+        if (text != null) {
+            if (!driver.findElement(locator).getAttribute("value").equals(text)){
+                driver.findElement(locator).click();
+                driver.findElement(locator).clear();
+                driver.findElement(locator).sendKeys(text);
+            }
+        }
     }
 
     public void submitGroupCreation() {

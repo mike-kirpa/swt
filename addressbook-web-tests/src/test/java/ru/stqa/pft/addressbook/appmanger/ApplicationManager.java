@@ -27,11 +27,11 @@ public class ApplicationManager {
     public void init() {
         System.setProperty("webdriver.chrome.driver", "G:\\my\\testing\\automation\\selenium\\webdriver\\chromedriver.exe");
         System.setProperty("webdriver.gecko.driver", "G:\\my\\testing\\automation\\selenium\\webdriver\\geckodriver.exe");
-        if (browser == BrowserType.CHROME) {
+        if (browser.equals(BrowserType.CHROME)) {
             driver = new ChromeDriver();
-        } else if (browser == BrowserType.FIREFOX) {
+        } else if (browser.equals(BrowserType.FIREFOX)) {
             driver = new FirefoxDriver();
-        } else if (browser == BrowserType.IE) {
+        } else if (browser.equals(BrowserType.IE)) {
             driver = new InternetExplorerDriver();
         }
 
