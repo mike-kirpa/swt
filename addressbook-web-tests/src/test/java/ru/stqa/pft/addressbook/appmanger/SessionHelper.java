@@ -19,5 +19,7 @@ public class SessionHelper {
         driver.findElement(By.name("pass")).clear();
         driver.findElement(By.name("pass")).sendKeys(password);
         driver.findElement(By.xpath("//input[@value='Login']")).click();
+
+
     }
 }

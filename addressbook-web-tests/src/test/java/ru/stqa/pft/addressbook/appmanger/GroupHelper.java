@@ -1,8 +1,13 @@
 package ru.stqa.pft.addressbook.appmanger;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupHelper {
     private WebDriver driver;
@@ -39,8 +44,9 @@ public class GroupHelper {
         driver.findElement(By.name("delete")).click();
     }
 
-    public void selectGroup() {
-        driver.findElement(By.name("selected[]")).click();
+    public void selectGroup(int index) {
+
+        driver.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void initGroupModification() {
@@ -49,5 +55,40 @@ public class GroupHelper {
 
     public void submitGroupModyfication() {
         driver.findElement(By.name("update")).click();
+    }
+
+    public void createGroup(GroupData group) {
+        createNewGroup();
+        fillGroupForm(group);
+        submitGroupCreation();
+        driver.findElement(By.linkText("groups")).click();
+    }
+
+    public boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean isThereAgroup() {
+        return isElementPresent(By.name("selected[]"));
+    }
+
+    public int getGroupCount() {
+        return driver.findElements(By.name("selected[]")).size();
+    }
+
+    public List<GroupData> getGroupList() {
+        List<GroupData> groups = new ArrayList<GroupData>();
+        List<WebElement> elements = driver.findElements(By.cssSelector("span.group"));
+        for (WebElement element : elements) {
+            String name = element.getText();
+            GroupData group = new GroupData(name, null, null);
+            groups.add(group);
+        }
+        return groups;
     }
 }
