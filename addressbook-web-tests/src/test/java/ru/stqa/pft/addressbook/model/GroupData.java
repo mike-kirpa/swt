@@ -16,8 +16,23 @@ public class GroupData {
         this.footerName = footerName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupData groupData = (GroupData) o;
+        return Objects.equals(groupName, groupData.groupName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(groupName);
+    }
+
     public GroupData(String groupName, String headerName, String footerName) {
-        this.id = 0;
+        this.id = Integer.MAX_VALUE;
+
         this.groupName = groupName;
         this.headerName = headerName;
         this.footerName = footerName;
@@ -37,21 +52,6 @@ public class GroupData {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupData groupData = (GroupData) o;
-        return Objects.equals(id, groupData.id) &&
-                Objects.equals(groupName, groupData.groupName);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, groupName);
     }
 
     @Override
