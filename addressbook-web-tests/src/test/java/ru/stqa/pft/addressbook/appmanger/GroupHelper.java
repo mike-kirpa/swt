@@ -57,11 +57,18 @@ public class GroupHelper {
         driver.findElement(By.name("update")).click();
     }
 
-    public void createGroup(GroupData group) {
+    public void create(GroupData group) {
         createNewGroup();
         fillGroupForm(group);
         submitGroupCreation();
         driver.findElement(By.linkText("groups")).click();
+    }
+
+    public void modify(int index, GroupData group) {
+        selectGroup(index);
+        initGroupModification();
+        fillGroupForm(group);
+        submitGroupModyfication();
     }
 
     public boolean isElementPresent(By by) {
@@ -81,13 +88,18 @@ public class GroupHelper {
         return driver.findElements(By.name("selected[]")).size();
     }
 
-    public List<GroupData> getGroupList() {
+    public void delete(int index) {
+        selectGroup(index);
+        deleteSelectedGroups();
+    }
+
+    public List<GroupData> list() {
         List<GroupData> groups = new ArrayList<GroupData>();
         List<WebElement> elements = driver.findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {
             String name = element.getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            GroupData group = new GroupData(id, name, null, null);
+            GroupData group = new GroupData().withId(id).withGroupName(name);
             groups.add(group);
         }
         return groups;

@@ -5,16 +5,9 @@ import java.util.Objects;
 public class GroupData {
 
     private int id;
-    private final String groupName;
-    private final String headerName;
-    private final String footerName;
-
-    public GroupData(int id, String groupName, String headerName, String footerName) {
-        this.id = id;
-        this.groupName = groupName;
-        this.headerName = headerName;
-        this.footerName = footerName;
-    }
+    private String groupName;
+    private String headerName;
+    private String footerName;
 
     @Override
     public boolean equals(Object o) {
@@ -30,13 +23,6 @@ public class GroupData {
         return Objects.hash(groupName);
     }
 
-    public GroupData(String groupName, String headerName, String footerName) {
-        this.id = Integer.MAX_VALUE;
-
-        this.groupName = groupName;
-        this.headerName = headerName;
-        this.footerName = footerName;
-    }
 
     public String getGroupName() {
         return groupName;
@@ -50,8 +36,9 @@ public class GroupData {
 
     public int getId() { return id; }
 
-    public void setId(int id) {
+    public GroupData withId(int id) {
         this.id = id;
+        return this;
     }
 
     @Override
@@ -60,6 +47,21 @@ public class GroupData {
                 "id='" + id + '\'' +
                 ", groupName='" + groupName + '\'' +
                 '}';
+    }
+
+    public GroupData withGroupName(String groupName) {
+        this.groupName = groupName;
+        return this;
+    }
+
+    public GroupData withHeaderName(String headerName) {
+        this.headerName = headerName;
+        return this;
+    }
+
+    public GroupData withFooterName(String footerName) {
+        this.footerName = footerName;
+        return this;
     }
 
 
