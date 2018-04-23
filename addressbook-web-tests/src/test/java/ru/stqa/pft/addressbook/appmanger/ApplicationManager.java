@@ -25,7 +25,7 @@ public class ApplicationManager {
     }
 
     public void init() {
-        System.setProperty("webdriver.chrome.driver", "G:\\my\\testing\\automation\\selenium\\webdriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\mydocy\\docs\\testing\\automation\\selenium\\chromedriver.exe");
         System.setProperty("webdriver.gecko.driver", "G:\\my\\testing\\automation\\selenium\\webdriver\\geckodriver.exe");
         if (browser.equals(BrowserType.CHROME)) {
             driver = new ChromeDriver();
