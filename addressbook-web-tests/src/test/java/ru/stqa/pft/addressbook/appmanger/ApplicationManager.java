@@ -6,6 +6,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.fail;
@@ -25,8 +27,12 @@ public class ApplicationManager {
     }
 
     public void init() {
-        System.setProperty("webdriver.chrome.driver", "C:\\mydocy\\docs\\testing\\automation\\selenium\\chromedriver.exe");
-        System.setProperty("webdriver.gecko.driver", "G:\\my\\testing\\automation\\selenium\\webdriver\\geckodriver.exe");
+        System.setProperty(
+                "webdriver.chrome.driver",
+                getResource("/chromedriver.exe"));
+
+        //System.setProperty("webdriver.chrome.driver", "C:\\mydocy\\docs\\testing\\automation\\selenium\\chromedriver.exe");
+        //System.setProperty("webdriver.gecko.driver", "G:\\my\\testing\\automation\\selenium\\webdriver\\geckodriver.exe");
         if (browser.equals(BrowserType.CHROME)) {
             driver = new ChromeDriver();
         } else if (browser.equals(BrowserType.FIREFOX)) {
@@ -41,6 +47,15 @@ public class ApplicationManager {
         sessionHelper = new SessionHelper(driver);
         contactHelper = new ContactHelper(driver);
         sessionHelper.login("admin", "secret");
+    }
+
+    public String getResource(String resourceName) {
+        try {
+            return Paths.get(ApplicationManager.class.getResource(resourceName).toURI()).toFile().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return resourceName;
     }
 
 
