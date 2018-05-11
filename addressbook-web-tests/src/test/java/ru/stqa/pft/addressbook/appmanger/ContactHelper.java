@@ -12,23 +12,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ContactHelper  {
+public class ContactHelper extends HelperBase{
     protected WebDriver driver;
 
     public ContactHelper(WebDriver driver) {
-       this.driver = driver;
-        //super(driver);
+        super(driver);
     }
 
     public void initContactCreation() {
-        driver.findElement(By.linkText("add new")).click();
+        clickOn(By.linkText("add new"));
     }
 
     public void fillContactForm(ContactData contactData, boolean creation) {
-        driver.findElement(By.name("firstname")).sendKeys(contactData.getFirstname());
-        driver.findElement(By.name("lastname")).sendKeys(contactData.getLastname());
-
-
+        type(By.name("firstname"), contactData.getFirstname());
+        type(By.name("lastname"), contactData.getLastname());
+        atach(By.name("photo"), contactData.getPhoto());
         if (creation) {
             new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
         } else {
