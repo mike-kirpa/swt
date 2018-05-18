@@ -21,6 +21,7 @@ public class ApplicationManager {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private String browser;
+    private HelperBase helperBase;
 
     public ApplicationManager(String browser) {
         this.browser = browser;

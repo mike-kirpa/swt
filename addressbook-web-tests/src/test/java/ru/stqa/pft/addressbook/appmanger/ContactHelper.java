@@ -8,15 +8,16 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ContactHelper extends HelperBase{
+public class ContactHelper {
     protected WebDriver driver;
 
     public ContactHelper(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
     }
 
     public void initContactCreation() {
@@ -26,9 +27,11 @@ public class ContactHelper extends HelperBase{
     public void fillContactForm(ContactData contactData, boolean creation) {
         type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
-        atach(By.name("photo"), contactData.getPhoto());
+        atach(By.name("photo"), contactData.getPhoto().getAbsoluteFile());
         if (creation) {
-            new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if(contactData.getGroup() != null){
+                new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            }
         } else {
            Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -63,7 +66,7 @@ public class ContactHelper extends HelperBase{
     }
 
     public void submitContactCreation() {
-        driver.findElement(By.name("submit"));
+        driver.findElement(By.name("submit")).click();
     }
 
     public void initContactModification() {
@@ -79,6 +82,10 @@ public class ContactHelper extends HelperBase{
         //driver.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
     }
 
+    protected void clickOn(By locator) {
+        driver.findElement(locator).click();
+    }
+
     public void submitContactModification() {
         driver.findElement(By.name("update"));
     }
@@ -89,6 +96,24 @@ public class ContactHelper extends HelperBase{
             return true;
         } catch (NoSuchElementException ex) {
             return false;
+        }
+    }
+
+    protected void type(By locator, String text) {
+        clickOn(locator);
+        if (text != null) {
+            String existingText = driver.findElement(locator).getAttribute("value");
+            if(! text.equals(existingText)) {
+                driver.findElement(locator).click();
+                driver.findElement(locator).sendKeys(text);
+            }
+        }
+    }
+
+    protected void atach(By locator, File file) {
+
+        if (file != null) {
+            driver.findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
 

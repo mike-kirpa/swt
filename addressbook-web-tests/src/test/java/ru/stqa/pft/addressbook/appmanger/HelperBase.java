@@ -13,6 +13,9 @@ public class HelperBase {
         this.driver = driver;
     }
 
+    public HelperBase() {
+    }
+
     protected void clickOn(By locator) {
         driver.findElement(locator).click();
     }
