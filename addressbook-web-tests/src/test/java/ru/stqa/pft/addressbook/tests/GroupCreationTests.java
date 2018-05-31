@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,12 +19,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase{
-    //C:\mydocy\docs\testing\automation\project\swt\addressbook-web-tests\src\test\resources\groups.csv
-    //создаем фабрику данных - заполняем список массивов, возвращаем итератор на первый элемент списка.
+    //создаем фабрику данных - заполняем список массивов из xml файла, читаем стока за строкой и склеиваем, десериализуем XML, возвращаем итератор на первый элемент списка.
     @DataProvider
     public Iterator<Object[]> validGroups() throws IOException {
-        List<Object[]> list = new ArrayList<Object[]>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "\\src\\test\\resources\\groups.xml")));
+        BufferedReader reader = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/../../addressbook-web-tests/src/test/resources/groups.xml")));
         String xml = "";
         String line = reader.readLine();
         while (line != null){
@@ -33,8 +30,8 @@ public class GroupCreationTests extends TestBase{
             line = reader.readLine();
         }
         XStream xstream = new XStream();
-        xstream.processAnnotations(GroupData.class);
-        List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
+        xstream.alias("group", GroupData.class);
+        List<GroupData> groups = (List<GroupData>)xstream.fromXML(xml);
         return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
 
@@ -51,9 +48,8 @@ public class GroupCreationTests extends TestBase{
                 before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 
-    @Test
+    @Test(enabled = false)
     public void testBadGroupCreation(){
-
         app.goTo().groupPage();
         Groups before = app.group().all();
         GroupData group = new GroupData().withGroupName("test2'");
