@@ -21,6 +21,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase{
+
+
     //создаем фабрику данных - заполняем список массивов из xml файла, читаем стока за строкой и склеиваем, десериализуем XML, возвращаем итератор на первый элемент списка.
     @DataProvider
     public Iterator<Object[]> validGroupsFromJson() throws IOException {
@@ -65,6 +67,7 @@ public class GroupCreationTests extends TestBase{
         Groups after = app.group().all();
         assertThat(after, equalTo(
                 before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        logger.info("Stop test testGroupCreation");
     }
 
     @Test(enabled = false)
