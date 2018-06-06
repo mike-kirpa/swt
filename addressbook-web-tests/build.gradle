@@ -25,10 +25,24 @@ task testGroups (type: Test) {
     useTestNG {
         suites 'src/test/resources/testng-groups.xml'
     }
+    //параметр получаемый при запуске сборки, для указания названия вебдрайвера(-Dbrowser=firefox, chrome)
+    if (project.hasProperty('browser')){
+        systemProperty 'browser', "${browser}"
+    }
+    //параметр получаемый при запуске сборки, для указания названия вебдрайвера(-Ptarget=local)
+    if (project.hasProperty('target')){
+        systemProperty 'target', "${target}"
+    }
 }
 
 task testContacts (type: Test) {
     useTestNG {
         suites 'src/test/resources/testng-contacts.xml'
+    }
+    if (project.hasProperty('browser')){
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('target')){
+        systemProperty 'target', "${target}"
     }
 }
