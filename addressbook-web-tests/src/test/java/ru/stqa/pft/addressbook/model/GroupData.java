@@ -14,6 +14,23 @@ import java.util.Objects;
 @Entity
 @Table(name="group_list")
 public class GroupData implements Serializable {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupData groupData = (GroupData) o;
+        return id == groupData.id &&
+                Objects.equals(groupName, groupData.groupName) &&
+                Objects.equals(headerName, groupData.headerName) &&
+                Objects.equals(footerName, groupData.footerName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, groupName, headerName, footerName);
+    }
+
     @XStreamOmitField
     //анотации для Hibernate
     @Id
@@ -33,21 +50,6 @@ public class GroupData implements Serializable {
     @Column(name = "group_footer")
     @Type(type = "text")
     private String footerName;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupData groupData = (GroupData) o;
-        return id == groupData.id &&
-                Objects.equals(groupName, groupData.groupName);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, groupName);
-    }
 
     public String getGroupName() {
         return groupName;

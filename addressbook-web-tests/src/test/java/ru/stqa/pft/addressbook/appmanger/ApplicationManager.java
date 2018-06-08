@@ -27,6 +27,7 @@ public class ApplicationManager {
     private StringBuffer verificationErrors = new StringBuffer();
     private String browser;
     private HelperBase helperBase;
+    private DbHelper dbHelper;
 
     public ApplicationManager(String browser) throws IOException {
         this.browser = browser;
@@ -39,6 +40,8 @@ public class ApplicationManager {
         String target = System.getProperty("target", "local");
         //из файла с названием с учетом значения из target, читаем ключи и значения в систем пропертис
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        dbHelper = new DbHelper();
 
         System.setProperty(
                 "webdriver.chrome.driver",
@@ -61,6 +64,7 @@ public class ApplicationManager {
         sessionHelper = new SessionHelper(driver);
         contactHelper = new ContactHelper(driver);
         sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
+        dbHelper = new DbHelper();
     }
 
     public String getResource(String resourceName) {
@@ -126,4 +130,6 @@ public class ApplicationManager {
     public ContactHelper contact() {
         return contactHelper;
     }
+
+    public DbHelper db() {return dbHelper;}
 }
