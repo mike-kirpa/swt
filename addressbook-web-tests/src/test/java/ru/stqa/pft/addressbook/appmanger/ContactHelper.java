@@ -29,8 +29,9 @@ public class ContactHelper {
         type(By.name("lastname"), contactData.getLastname());
         atach(By.name("photo"), contactData.getPhoto().getAbsoluteFile());
         if (creation) {
-            if(contactData.getGroup() != null){
-                new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if(contactData.getGroups().size() > 0){
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getGroupName());
             }
         } else {
            Assert.assertFalse(isElementPresent(By.name("new_group")));
