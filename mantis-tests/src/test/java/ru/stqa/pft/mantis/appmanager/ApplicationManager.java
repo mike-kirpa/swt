@@ -18,9 +18,11 @@ import static org.testng.Assert.fail;
 
 public class ApplicationManager {
     private final Properties properties;
-    WebDriver driver;
+    private WebDriver wd;
     private StringBuffer verificationErrors = new StringBuffer();
     private String browser;
+    private RegistrationHelper registrationHelper;
+    private FtpHelper ftp;
 
 
     public ApplicationManager(String browser) {
@@ -36,22 +38,8 @@ public class ApplicationManager {
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
 
-        System.setProperty(
-                "webdriver.chrome.driver",
-                getResource("/chromedriver.exe"));
-        System.setProperty(
-                "webdriver.gecko.driver",
-                getResource("/geckodriver.exe"));
-        if (browser.equals(BrowserType.CHROME)) {
-            driver = new ChromeDriver();
-        } else if (browser.equals(BrowserType.FIREFOX)) {
-            driver = new FirefoxDriver();
-        } else if (browser.equals(BrowserType.IE)) {
-            driver = new InternetExplorerDriver();
-        }
 
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get(properties.getProperty("web.baseURL"));
+
 
     }
 
@@ -65,11 +53,57 @@ public class ApplicationManager {
     }
 
     public void stop() {
-        driver.quit();
+        if (wd != null) {
+            wd.quit();
+        }
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
     }
 
+    public HttpSession newSession(){
+        return new HttpSession(this);
+    }
+
+    public String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
+    public RegistrationHelper registration() {
+        if(registrationHelper == null) {
+            registrationHelper =  new RegistrationHelper(this);
+        }
+        return registrationHelper;
+    }
+
+    public FtpHelper ftp() {
+        if(ftp == null) {
+            ftp = new FtpHelper(this);
+        }
+        return ftp;
+    }
+
+    public WebDriver getDriver() {
+        if (wd == null ){
+            System.setProperty(
+                    "webdriver.chrome.driver",
+                    getResource("/chromedriver.exe"));
+            System.setProperty(
+                    "webdriver.gecko.driver",
+                    getResource("/geckodriver.exe"));
+
+            if (browser.equals(BrowserType.CHROME)) {
+                wd = new ChromeDriver();
+            } else if (browser.equals(BrowserType.FIREFOX)) {
+                wd = new FirefoxDriver();
+            } else if (browser.equals(BrowserType.IE)) {
+                wd = new InternetExplorerDriver();
+            }
+
+            wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            wd.get(properties.getProperty("web.baseUrl"));
+        }
+        return wd;
+    }
 }
