@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class TestBase {
 
     protected static ApplicationManager app;
-    //СЃРѕР·РґР°РµРј Р»РѕРіРµСЂ
+    //создаем логер
     Logger logger = LoggerFactory.getLogger(TestBase.class);
 
     static {
@@ -52,7 +52,7 @@ public class TestBase {
         logger.info("Stop test" + m.getName() + "with parameters" + Arrays.asList(p));
     }
 
-    //РїРѕРґРєР»СЋС‡Р°РµРј С‚РµСЃС‚ СЃРІРµСЂРєРё СЃРїРёСЃРєР° РіСЂСѓРїРї РёР· Р‘Р” Рё Р®Р
+    //подключаем тест сверки списка групп из БД и ЮИ
     public void verifyGroupListInUI() {
         if (Boolean.getBoolean("verifyUI")){
             Groups dbGroups = app.db().groups();
