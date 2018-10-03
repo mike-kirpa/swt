@@ -41,7 +41,7 @@ public class ApplicationManager {
         //из файла с названием с учетом значения из target, читаем ключи и значения в систем пропертис
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
-//        dbHelper = new DbHelper();
+        dbHelper = new DbHelper();
 
         System.setProperty(
                 "webdriver.chrome.driver",
