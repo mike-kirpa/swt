@@ -4,11 +4,12 @@ import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name="group_list")
@@ -49,14 +50,14 @@ public class GroupData implements Serializable {
     @Column(name = "group_footer")
     @Type(type = "text")
     private String footerName;
-
+/*
     public Set<ContactData> getContacts() {
         return contacts;
     }
 
     @ManyToMany(mappedBy = "groups")
     private Set<ContactData> contacts = new HashSet<ContactData>();
-
+*/
 
     public String getGroupName() {
         return groupName;
